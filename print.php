@@ -8,7 +8,7 @@ $dbname = "miniproject";
 $conn = new mysqli($host, $user, $password, $dbname);
 if ($conn->connect_error) die("DB Error");
 
-// ✅ Check session
+// Check session
 if (!isset($_SESSION['patient_id']) || !isset($_SESSION['hospital_id'])) {
     header("Location: register.php");
     exit();
@@ -17,7 +17,7 @@ if (!isset($_SESSION['patient_id']) || !isset($_SESSION['hospital_id'])) {
 $patient_id = $_SESSION['patient_id'];
 $hospital_id = $_SESSION['hospital_id'];
 
-// ✅ Fetch patient details
+// Fetch patient details
 $stmt = $conn->prepare("SELECT * FROM patients WHERE id=? AND hospital_id=?");
 $stmt->bind_param("ii", $patient_id, $hospital_id);
 $stmt->execute();
@@ -28,20 +28,20 @@ if (!$patient) {
     die("❌ Patient not found!");
 }
 
-// ✅ Payment check (18+)
+// Payment check (18+)
 if ($patient['age'] >= 18 && (!isset($_SESSION['paid']) || $_SESSION['paid'] == false)) {
     header("Location: payment.php");
     exit();
 }
 
-// ✅ Fetch hospital name
+// Fetch hospital name
 $stmt = $conn->prepare("SELECT name FROM hospitals WHERE id=?");
 $stmt->bind_param("i", $hospital_id);
 $stmt->execute();
 $hospital_name = $stmt->get_result()->fetch_assoc()['name'] ?? "Hospital";
 $stmt->close();
 
-// ✅ Remove session after displaying
+// Remove session after displaying
 unset($_SESSION['patient_id']);
 unset($_SESSION['hospital_id']);
 unset($_SESSION['paid']);
@@ -158,7 +158,7 @@ body{
 </div>
 
 <script>
-// ✅ Auto redirect after 5 seconds
+// Auto redirect after 5 seconds
 setTimeout(() => {
     window.location.href = "index.php";
 }, 5000);
