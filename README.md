@@ -131,6 +131,3 @@ Maintains unique patient UID per hospital.
 ✔ Analytics Dashboard  
 ✔ Excel Export  
 ✔ Document Verification System  
-
----
-
